@@ -9,6 +9,7 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Button} from 'react-native';
+import AwesomeButton from "react-native-really-awesome-button";
 
 // const instructions = Platform.select({
 //   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -79,26 +80,36 @@ export default class App extends Component<Props> {
 
   render() {
     return (
-      <View style={{flex: 1}}>
-        <View style={styles.container}>
-          <Text>{this.state.input}</Text>
-          <Text>{this.state.output}</Text>
+      <View style = {{flex: 0.5}}>
+        <View style = {styles.container}>
+          <Text style = {{fontSize: 20}}> {this.state.input} </Text>
+          <Text style = {{fontSize: 20}}> {this.state.output} </Text>
         </View>
 
         <View style={styles.buttonRow}>
-          <Button
-            title = "<"
+          <AwesomeButton
             onPress = {this.backspace}
-            color = "red"
-          />
+            width = {100}
+            backgroundColor = {"red"}
+          >
+            <Text>{"<"}</Text>
+          </AwesomeButton>
           
           {["(", ")", "÷"].map((element, index) => (
-            <Button
+            /*<Button
               key = {index}
               title = {element}
               onPress = {() => this.symbol(element)}
               color = "red"
-            />
+            />*/
+            <AwesomeButton
+              key = {index}
+              onPress = {() => this.symbol(element)}
+              width = {100}
+              backgroundColor = {"red"}
+            >
+              <Text>{element}</Text>
+            </AwesomeButton>
           ))}
         </View>
 
