@@ -1,12 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- * @lint-ignore-every XPLATJSCOPYRIGHT1
- */
-
 import React, {Component} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Button from './Button.js';
@@ -187,9 +178,9 @@ export default class App extends Component {
 
   render() {
     return (
-      <View style = {{flex: 0.75}}>
-        <View style = {styles.container}>
-          <Text style = {styles.screen} numberOfLines = {1}>
+      <View style = {styles.page}>
+        <View style = {styles.screen}>
+          <Text style = {styles.input} numberOfLines = {1}>
             {this.state.input}
           </Text>
         </View>
@@ -216,7 +207,7 @@ export default class App extends Component {
           />
         </View>
 
-        <View style={styles.buttonRow}>
+        <View style = {styles.buttonRow}>
           <Button
             title = {"<"}
             onPress = {this.backspace}
@@ -231,7 +222,7 @@ export default class App extends Component {
           ))}
         </View>
 
-        <View style={styles.buttonRow}>
+        <View style = {styles.buttonRow}>
           {["7", "8", "9", "×"].map((element, index) => (
             <Button
               key = {index}
@@ -241,7 +232,7 @@ export default class App extends Component {
           ))}
         </View>
 
-        <View style={styles.buttonRow}>
+        <View style = {styles.buttonRow}>
           {["4", "5", "6", "-"].map((element, index) => (
             <Button
               key = {index}
@@ -251,7 +242,7 @@ export default class App extends Component {
           ))}
         </View>
         
-        <View style={styles.buttonRow}>
+        <View style = {styles.buttonRow}>
           {["1", "2", "3", "+"].map((element, index) => (
             <Button
               key = {index}
@@ -261,7 +252,7 @@ export default class App extends Component {
           ))}
         </View>
 
-        <View style={styles.buttonRow}>
+        <View style = {styles.buttonRow}>
           <Button
             title = "C"
             onPress = {this.clear}
@@ -285,25 +276,27 @@ export default class App extends Component {
   }
 }
 
-let row1 = ["<", "(", ")", "÷"];
-let row2 = ["7", "8", "9", "×"];
-let row3 = ["4", "5", "6", "-"];
-let row4 = ["1", "2", "3", "+"];
-let row5 = ["C", "0", ".", "="];
-
 const styles = StyleSheet.create({
-  container: {
+  page: {
+    flex: 1
+  },
+  screen: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    padding: 10,
+    margin: 25,
+    backgroundColor: "#FFEBCD",
+    borderRadius: 14
   },
   buttonRow: {
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    margin: 25
   },
-  screen: {
+  input: {
     fontSize: 40,
-    color: "black"
+    color: "black",
   }
 });
