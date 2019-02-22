@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, Vibration} from 'react-native';
 import Button from './Button.js';
 
 export default class App extends Component {
@@ -10,13 +10,21 @@ export default class App extends Component {
     isNonDec: false
   };
 
+  vibrate = () => Vibration.vibrate(6);
+  
   equal = () => {
+    this.vibrate();
+
     try {
       let result = eval(this.state.input.replace(/×/g, "*")
                                         .replace(/÷/g, "/"));
 
       if (result === Infinity || Number.isNaN(result)) {
         throw "error";
+      }
+
+      if (result === undefined) {
+        result = "";
       }
 
       // if (!Number.isInteger(result)) {
@@ -35,6 +43,8 @@ export default class App extends Component {
   }
 
   toBinOrHex = (base) => {
+    this.vibrate();
+
     if (this.state.isNonDec) {
       return;
     }
@@ -61,6 +71,8 @@ export default class App extends Component {
   }
 
   toOnes = () => {
+    this.vibrate();
+
     if (this.state.isNonDec) {
       return;
     }
@@ -95,6 +107,8 @@ export default class App extends Component {
   }
 
   toTwos = () => {
+    this.vibrate();
+
     if (this.state.isNonDec) {
       return;
     }
@@ -129,6 +143,8 @@ export default class App extends Component {
   }
 
   clear = () => {
+    this.vibrate();
+
     this.setState({
       input: "",
       haveError: false
@@ -136,6 +152,8 @@ export default class App extends Component {
   }
 
   backspace = () => {
+    this.vibrate();
+
     if (this.state.haveError || this.state.isNonDec) {
       this.setState({
         input: "",
@@ -157,6 +175,8 @@ export default class App extends Component {
   }
 
   symbol = (x) => {
+    this.vibrate();
+
     if (this.state.haveError || this.state.isNonDec) {
       this.setState({
         input: x.replace("+", " + ")
@@ -284,7 +304,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 10,
+    padding: 15,
     margin: 25,
     backgroundColor: "#FFEBCD",
     borderRadius: 14
@@ -298,5 +318,6 @@ const styles = StyleSheet.create({
   input: {
     fontSize: 40,
     color: "black",
+    fontWeight: "bold"
   }
 });

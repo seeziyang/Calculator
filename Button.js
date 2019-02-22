@@ -8,7 +8,7 @@ const Button = ({title, onPress}) => (
     width = {75}
     backgroundColor = {"red"}
     backgroundDarker = {"darkred"}
-    raiseLevel = {10}
+    raiseLevel = {6}
     springRelease = {false}
     borderRadius = {14}
   >
