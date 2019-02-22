@@ -5,10 +5,11 @@ import AwesomeButton from "react-native-really-awesome-button";
 const Button = ({title, onPress}) => (
   <AwesomeButton
     onPress = {onPress}
-    width = {100}
+    width = {60}
     backgroundColor = {"red"}
     backgroundDarker = {"darkred"}
-    raiseLevel = {4}
+    raiseLevel = {10}
+    springRelease = {false}
     borderRadius = {10}
   >
     <Text style = {styles.buttonText}>

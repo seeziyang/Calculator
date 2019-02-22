@@ -11,20 +11,123 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Button from './Button.js';
 
-type Props = {};
-export default class App extends Component<Props> {
+export default class App extends Component {
 
   state = {
     input: "",
-    haveError: false
+    haveError: false,
+    isNonDec: false
   };
 
   equal = () => {
     try {
-      let result = eval(this.state.input.replace("×", "*")
-                                        .replace("÷", "/"));
+      let result = eval(this.state.input.replace(/×/g, "*")
+                                        .replace(/÷/g, "/"));
+
+      if (result === Infinity || Number.isNaN(result)) {
+        throw "error";
+      }
+
+      // if (!Number.isInteger(result)) {
+      //   result = result.toFixed(8);
+      // }
+
+      this.setState({
+        input: "" + result,
+      });
+    } catch (error) {
+      this.setState({
+        input: "invalid input",
+        haveError: true
+      });
+    }
+  }
+
+  toBinOrHex = (base) => {
+    if (this.state.isNonDec) {
+      return;
+    }
+
+    try {
+      let result = eval(this.state.input.replace(/×/g, "*")
+                                        .replace(/÷/g, "/"));
+
+      if (result === Infinity || Number.isNaN(result)) {
+        throw "error";
+      }
+
+      result = result.toString(base).toUpperCase();
       this.setState({
         input: result,
+        isNonDec: true
+      });
+    } catch (error) {
+      this.setState({
+        input: "invalid input",
+        haveError: true
+      });
+    }
+  }
+
+  toOnes = () => {
+    if (this.state.isNonDec) {
+      return;
+    }
+
+    try {
+      let result = eval(this.state.input.replace(/×/g, "*")
+                                        .replace(/÷/g, "/"));
+
+      if (result === Infinity || Number.isNaN(result)
+          || result < -127 || result > 127) {
+        throw "error";
+      } 
+      
+      let isNegative = result < 0;
+      result = (Math.abs(result)).toString(2).padStart(8, "0");
+      if (isNegative) {
+        result = result.replace(/0/g, "a")
+                       .replace(/1/g, "0")
+                       .replace(/a/g, "1");
+      }
+
+      this.setState({
+        input: result,
+        isNonDec: true
+      });
+    } catch (error) {
+      this.setState({
+        input: "invalid input",
+        haveError: true
+      });
+    }
+  }
+
+  toTwos = () => {
+    if (this.state.isNonDec) {
+      return;
+    }
+
+    try {
+      let result = eval(this.state.input.replace(/×/g, "*")
+                                        .replace(/÷/g, "/"));
+
+      if (result === Infinity || Number.isNaN(result)
+          || result < -128 || result > 127) {
+        throw "error";
+      } 
+      
+      let isNegative = result < 0;
+      result = (Math.abs(result)).toString(2).padStart(8, "0");
+      if (isNegative) {
+        result = (parseInt(result.replace(/0/g, "a")
+                                .replace(/1/g, "0")
+                                .replace(/a/g, "1"), 2) + 1).toString(2);
+      }
+      
+      this.setState({
+        input: result,
+        isNonDec: true
       });
     } catch (error) {
       this.setState({
@@ -42,10 +145,11 @@ export default class App extends Component<Props> {
   }
 
   backspace = () => {
-    if (this.state.haveError) {
+    if (this.state.haveError || this.state.isNonDec) {
       this.setState({
         input: "",
-        haveError: false
+        haveError: false,
+        isNonDec: false
       });
     } else {
       let currInput = this.state.input;
@@ -62,20 +166,21 @@ export default class App extends Component<Props> {
   }
 
   symbol = (x) => {
-    if (this.state.haveError) {
+    if (this.state.haveError || this.state.isNonDec) {
       this.setState({
         input: x.replace("+", " + ")
                 .replace("-", " - ")
                 .replace("×", " × ")
                 .replace("÷", " ÷ "),
-        haveError: false
+        haveError: false,
+        isNonDec: false
       });
     } else {
       this.setState({
         input: this.state.input + x.replace("+", " + ")
-                                  .replace("-", " - ")
-                                  .replace("×", " × ")
-                                  .replace("÷", " ÷ ")
+                                   .replace("-", " - ")
+                                   .replace("×", " × ")
+                                   .replace("÷", " ÷ ")
       });
     }
   }
@@ -84,7 +189,31 @@ export default class App extends Component<Props> {
     return (
       <View style = {{flex: 0.75}}>
         <View style = {styles.container}>
-          <Text style = {styles.screen}> {this.state.input} </Text>
+          <Text style = {styles.screen} numberOfLines = {1}>
+            {this.state.input}
+          </Text>
+        </View>
+
+        <View style = {styles.buttonRow}>
+          <Button
+            title = {"1's"}
+            onPress = {this.toOnes}
+          />
+
+          <Button
+            title = {"2's"}
+            onPress = {this.toTwos}
+          />
+
+          <Button
+            title = {"BIN"}
+            onPress = {() => this.toBinOrHex(2)}
+          />
+
+          <Button
+            title = {"HEX"}
+            onPress = {() => this.toBinOrHex(16)}
+          />
         </View>
 
         <View style={styles.buttonRow}>
