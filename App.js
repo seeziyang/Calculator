@@ -81,7 +81,7 @@ export default class App extends Component {
       let result = eval(this.state.input.replace(/×/g, "*")
                                         .replace(/÷/g, "/"));
 
-      if (result === Infinity || Number.isNaN(result)
+      if (result === Infinity || Number.isNaN(result) || !Number.isInteger(result)
           || result < -127 || result > 127) {
         throw "error";
       } 
@@ -117,7 +117,7 @@ export default class App extends Component {
       let result = eval(this.state.input.replace(/×/g, "*")
                                         .replace(/÷/g, "/"));
 
-      if (result === Infinity || Number.isNaN(result)
+      if (result === Infinity || Number.isNaN(result) || !Number.isInteger(result)
           || result < -128 || result > 127) {
         throw "error";
       } 
@@ -205,91 +205,93 @@ export default class App extends Component {
           </Text>
         </View>
 
-        <View style = {styles.buttonRow}>
-          <Button
-            title = {"1's"}
-            onPress = {this.toOnes}
-          />
+        <View style = {styles.buttons}>
+          <View style = {styles.buttonRow}>
+            <Button
+              title = {"1's"}
+              onPress = {this.toOnes}
+            />
 
-          <Button
-            title = {"2's"}
-            onPress = {this.toTwos}
-          />
+            <Button
+              title = {"2's"}
+              onPress = {this.toTwos}
+            />
 
-          <Button
-            title = {"BIN"}
-            onPress = {() => this.toBinOrHex(2)}
-          />
+            <Button
+              title = {"BIN"}
+              onPress = {() => this.toBinOrHex(2)}
+            />
 
-          <Button
-            title = {"HEX"}
-            onPress = {() => this.toBinOrHex(16)}
-          />
-        </View>
+            <Button
+              title = {"HEX"}
+              onPress = {() => this.toBinOrHex(16)}
+            />
+          </View>
 
-        <View style = {styles.buttonRow}>
-          <Button
-            title = {"<"}
-            onPress = {this.backspace}
-          />
+          <View style = {styles.buttonRow}>
+            <Button
+              title = {"<"}
+              onPress = {this.backspace}
+            />
+            
+            {["(", ")", "÷"].map((element, index) => (
+              <Button
+                key = {index}
+                title = {element}
+                onPress = {() => this.symbol(element)}
+              />
+            ))}
+          </View>
+
+          <View style = {styles.buttonRow}>
+            {["7", "8", "9", "×"].map((element, index) => (
+              <Button
+                key = {index}
+                title = {element}
+                onPress = {() => this.symbol(element)}
+              />
+            ))}
+          </View>
+
+          <View style = {styles.buttonRow}>
+            {["4", "5", "6", "-"].map((element, index) => (
+              <Button
+                key = {index}
+                title = {element}
+                onPress = {() => this.symbol(element)}
+              />
+            ))}
+          </View>
           
-          {["(", ")", "÷"].map((element, index) => (
-            <Button
-              key = {index}
-              title = {element}
-              onPress = {() => this.symbol(element)}
-            />
-          ))}
-        </View>
+          <View style = {styles.buttonRow}>
+            {["1", "2", "3", "+"].map((element, index) => (
+              <Button
+                key = {index}
+                title = {element}
+                onPress = {() => this.symbol(element)}
+              />
+            ))}
+          </View>
 
-        <View style = {styles.buttonRow}>
-          {["7", "8", "9", "×"].map((element, index) => (
+          <View style = {styles.buttonRow}>
             <Button
-              key = {index}
-              title = {element}
-              onPress = {() => this.symbol(element)}
+              title = "C"
+              onPress = {this.clear}
             />
-          ))}
-        </View>
+            
+            {["0", "."].map((element, index) => (
+              <Button
+                key = {index}
+                title = {element}
+                onPress = {() => this.symbol(element)}
+              />
+            ))}
 
-        <View style = {styles.buttonRow}>
-          {["4", "5", "6", "-"].map((element, index) => (
             <Button
-              key = {index}
-              title = {element}
-              onPress = {() => this.symbol(element)}
+              title = "="
+              onPress = {this.equal}
             />
-          ))}
-        </View>
-        
-        <View style = {styles.buttonRow}>
-          {["1", "2", "3", "+"].map((element, index) => (
-            <Button
-              key = {index}
-              title = {element}
-              onPress = {() => this.symbol(element)}
-            />
-          ))}
-        </View>
-
-        <View style = {styles.buttonRow}>
-          <Button
-            title = "C"
-            onPress = {this.clear}
-          />
-          
-          {["0", "."].map((element, index) => (
-            <Button
-              key = {index}
-              title = {element}
-              onPress = {() => this.symbol(element)}
-            />
-          ))}
-
-          <Button
-            title = "="
-            onPress = {this.equal}
-          />
+          </View>
         </View>
       </View>
     );
@@ -298,16 +300,22 @@ export default class App extends Component {
 
 const styles = StyleSheet.create({
   page: {
-    flex: 1
+    flex: 1,
+    backgroundColor: "#FFEBCD",
+    paddingBottom: 25
   },
   screen: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 15,
+    flex: 0.25,
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    padding: 25,
     margin: 25,
-    backgroundColor: "#FFEBCD",
+    marginBottom: 0,
+    backgroundColor: "white",
     borderRadius: 14
+  },
+  buttons: {
+    flex: 0.75
   },
   buttonRow: {
     flex: 1,
@@ -318,6 +326,11 @@ const styles = StyleSheet.create({
   input: {
     fontSize: 40,
     color: "black",
+    fontWeight: "bold"
+  },
+  prevOutput: {
+    fontSize: 25,
+    color: "darkgrey",
     fontWeight: "bold"
   }
 });

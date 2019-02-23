@@ -6,10 +6,10 @@ const Button = ({title, onPress}) => (
   <AwesomeButton
     onPress = {onPress}
     width = {75}
-    backgroundColor = {"red"}
-    backgroundDarker = {"darkred"}
-    raiseLevel = {6}
-    springRelease = {false}
+    backgroundColor = {"#FF6961"}
+    backgroundDarker = {"#cc544d"}
+    raiseLevel = {10}
+    springRelease = {true}
     borderRadius = {14}
   >
     <Text style = {styles.buttonText}>
