@@ -10,8 +10,10 @@ export default class App extends Component {
     isNonDec: false
   };
 
+  // vibration setting
   vibrate = () => Vibration.vibrate(6);
   
+  // evaluate output
   equal = () => {
     this.vibrate();
 
@@ -27,10 +29,6 @@ export default class App extends Component {
         result = "";
       }
 
-      // if (!Number.isInteger(result)) {
-      //   result = result.toFixed(8);
-      // }
-
       this.setState({
         input: "" + result,
       });
@@ -42,6 +40,7 @@ export default class App extends Component {
     }
   }
 
+  // convert to binary or hexadecimal
   toBinOrHex = (base) => {
     this.vibrate();
 
@@ -70,6 +69,7 @@ export default class App extends Component {
     }
   }
 
+  // convert to 1s complement
   toOnes = () => {
     this.vibrate();
 
@@ -106,6 +106,7 @@ export default class App extends Component {
     }
   }
 
+  // convert to 2s complement
   toTwos = () => {
     this.vibrate();
 
@@ -142,6 +143,7 @@ export default class App extends Component {
     }
   }
 
+  // clear the screen
   clear = () => {
     this.vibrate();
 
@@ -151,6 +153,7 @@ export default class App extends Component {
     });
   }
 
+  // remove last entered symbol on screen
   backspace = () => {
     this.vibrate();
 
@@ -174,6 +177,7 @@ export default class App extends Component {
     }
   }
 
+  // any other inputs
   symbol = (x) => {
     this.vibrate();
 
